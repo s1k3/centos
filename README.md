@@ -13,3 +13,6 @@
 
 ***Get all SELinux configurations***
 getsebool -a
+***How to fix Error: laravel.log could not be opened?***
+1. sudo chown -R $USER:www-data storage
+2. chmod -R 775 storage
