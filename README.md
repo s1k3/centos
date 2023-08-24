@@ -17,3 +17,17 @@ getsebool -a
 ***How to fix Error: laravel.log could not be opened?***
 1. sudo chown -R $USER:www-data storage
 2. chmod -R 775 storage
+
+
+alias bitbucket_token="echo 'ATBBKy8GJuT3gwTJG36RbTmvae6pD15C9151'"
+alias github_token="echo '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'"
+alias gta_github_token="echo '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'"
+alias gta_github_user="git config --global user.email 'robin@primtechs.com' && git config --global user.name 'robingta'"
+alias github_user="git config --global user.email 'sk118420@gmail.com' && git config --global user.name 's1k3'"
+alias edit_path="sudo nano ~/.bashrc"
+alias smart_school_ssh="sudo ssh -i '/var/pem/school_project_test.pem' ubuntu@ec2-34-234-17-110.compute-1.amazonaws.com"
+alias smart_school_sftp="sudo sftp -i '/var/pem/school_project_test.pem' ubuntu@ec2-34-234-17-110.compute-1.amazonaws.com"
+
+function switch(){
+  sudo update-alternatives --config "$1";
+}
