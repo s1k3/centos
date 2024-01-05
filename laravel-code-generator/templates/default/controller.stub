@@ -1,0 +1,59 @@
+<?php
+
+namespace [% namespace %];
+
+[% use_command_placeholder %]
+use Exception;
+
+class [% controller_name %] [% controller_extends %]
+{
+[% constructor %]
+  
+    public function index(){
+        $[% model_name_plural_variable %] = [% model_name_class %]::[% with_relations_for_index %]paginate(config("system.pagination.per_page"));
+        return view('[% index_view_name %]'[% view_variables_for_index %]);
+    }
+
+    public function create(){
+        [% relation_collections %]
+        return view('[% create_view_name %]'[% view_variables_for_create %]);
+    }
+
+    public function store([% type_hinted_request_name %]){
+        [% call_affirm %]
+        $[% data_variable %] = [% call_get_data %];
+        [% on_store_setter %]
+        [% model_name_class %]::create($[% data_variable %]);
+        return redirect()->route('[% index_route_name %]')->with('success', [% model_was_added %]);
+    }
+
+    public function show([% model_name_class %] $[% model_name_singular_variable %]){
+        return view('[% show_view_name %]'[% view_variables_for_show %]);
+    }
+
+    public function edit([% model_name_class %] $[% model_name_singular_variable %]){
+        return view('[% edit_view_name %]'[% view_variables_for_edit %]);
+    }
+
+
+    public function update([% model_name_class %] $[% model_name_singular_variable %], [% type_hinted_request_name %])
+    {
+        [% call_affirm %]
+        $[% data_variable %] = [% call_get_data %];
+        [% on_update_setter %]
+        $[% model_name_singular_variable %]->update($[% data_variable %]);
+        return redirect()->route('[% index_route_name %]')->with('success', [% model_was_updated %]);     
+    }
+
+
+    public function destroy([% model_name_class %] $[% model_name_singular_variable %])
+    {
+        try {
+            $[% model_name_singular_variable %]->delete();
+            return redirect()->route('[% index_route_name %]')->with('success', [% model_was_deleted %]);
+        } catch (Exception $exception) {
+            return redirect()->route('[% index_route_name %]')->with('error', "Someting Wen Wrong");
+        }
+    }
+    
+}

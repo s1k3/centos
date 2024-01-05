@@ -1,0 +1,105 @@
+@extends('layout.main')
+
+@section('content')
+    @can("create", App\Models\[% model_name_class %]::class)
+        <div class="btn-group btn-group float-right mt-3" role="group">
+            <a href="{{ route('[% create_route_name %]') }}" class="btn btn-success" title="[% create_model %]">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+            </a>
+        </div>
+    @endcan
+    <p class="clearfix"></p>
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <div class="card-title">
+                <h4>[% model_plural %]</h4>
+            </div>
+        </div>
+        
+
+        <div class="card-card-body">
+            @if(count($[% model_name_plural_variable %]) == 0)
+                <h4 class="text-center mb-5 mt-5">[% no_models_available %]</h4>
+            @else
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>SL</th>
+                            [% header_cells %]
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($[% model_name_plural_variable %] as $index => $[% model_name_singular_variable %])
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            [% body_cells %]
+                            <td>
+                                <div class="btn-group" role="group">
+                                    @can("view", $[% model_name_singular_variable %])
+                                        <a href="{{ route('[% show_route_name %]', $[% model_name_singular_variable %]->[% primary_key %] ) }}" 
+                                        class="btn btn-info btn-sm"
+                                        title="[% show_model %]">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    @endcan
+                                    @can("update", $[% model_name_singular_variable %])
+                                        <a href="{{ route('[% edit_route_name %]', $[% model_name_singular_variable %]->[% primary_key %] ) }}" 
+                                           class="btn btn-primary btn-sm"
+                                           title="[% edit_model %]">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    @can("delete", $[% model_name_singular_variable %])
+                                        <button type="button" class="btn btn-danger btn-sm" 
+                                                title="[% delete_model %]"
+                                                data-toggle="modal"
+                                                data-target="#delete-{{$index}}">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    @endcan
+                                </div>                        
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
+        @if($[% model_name_plural_variable %]->hasPages())
+            <div class="card-footer">
+                <div class="float-right">
+                    {!! $[% model_name_plural_variable %]->render() !!}
+                </div>
+            </div>
+        @endif
+    
+    </div>
+      @foreach($[% model_name_plural_variable %] as $index=>$[% model_name_singular_variable %])
+        @can("delete", $[% model_name_singular_variable %])
+            <form method="POST" action="{!! route('[% destroy_route_name %]', $[% model_name_singular_variable %]->[% primary_key %]) !!}" accept-charset="UTF-8">
+                @method("DELETE")
+                @csrf
+                <div class="modal fade in" id="delete-{{$index}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Confirm</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p> Delete {{$[% model_name_singular_variable %]->[% primary_key %]}} ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        @endcan
+    @endforeach
+@endsection

@@ -1,0 +1,22 @@
+[
+    {
+        "model-name": "Motto",
+        "resource-file": "mottoes.json",
+        "table-name": "mottos"
+    },
+    {
+        "model-name": "Slider",
+        "resource-file": "sliders.json",
+        "table-name": "sliders"
+    },
+    {
+        "model-name": "Content",
+        "resource-file": "contents.json",
+        "table-name": "contents"
+    },
+    {
+        "model-name": "CustomerFeedback",
+        "resource-file": "customer_feedbacks.json",
+        "table-name": "customer_feedbacks"
+    }
+]

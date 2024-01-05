@@ -1,0 +1,31 @@
+@extends('layout.main')
+
+@section('content')
+    @can("viewAny", App\Models\[% model_name_class %]::class)
+        <div class="btn-group btn-group float-right mt-3" role="group">
+            <a href="{{ route('[% index_route_name %]') }}" class="btn btn-primary" title="[% show_all_models %]">
+                <span class="fa fa-list" aria-hidden="true"></span>
+            </a>
+        </div>
+    @endcan
+    <p class="clearfix"></p>
+    <form method="POST" action="{{ route('[% store_route_name %]') }}" accept-charset="UTF-8">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>[% create_model %]</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                @csrf
+                @include ('[% form_view_name %]', ['[% model_name_singular_variable %]' => null ])
+            </div>
+            <div class="card-footer">
+                <input class="btn btn-primary float-right" type="submit" value="Submit">
+                <p class="clearfix"></p>
+            </div>
+        </div>
+    </form>
+@endsection
+
+

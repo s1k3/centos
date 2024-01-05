@@ -1,0 +1,1 @@
+{!! $errors->first('[% field_name %]', '<p class="text-danger">:message</p>') !!}

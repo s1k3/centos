@@ -1,0 +1,37 @@
+@extends('layout.main')
+
+@section('content')
+
+    <div class="btn-group btn-group float-right mt-3" role="group">
+        @can("viewAny", App\Models\[% model_name_class %]::class)
+            <a href="{{ route('[% index_route_name %]') }}" class="btn btn-primary" title="[% show_all_models %]">
+                <span class="fa fa-list" aria-hidden="true"></span>
+            </a>
+        @endcan
+        @can("create", App\Models\[% model_name_class %]::class)
+            <a href="{{ route('[% create_route_name %]') }}" class="btn btn-success" title="[% create_model %]">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+            </a>
+        @endcan
+    </div>
+    <p class="clearfix"></p>
+    <form method="POST" action="{{ route('[% update_route_name %]', $[% model_name_singular_variable %]->[% primary_key %]) }}">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>[% model_name_title %]</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                @csrf
+                @method("PUT")
+                @include ('[% form_view_name %]', ['[% model_name_singular_variable %]' => $[% model_name_singular_variable %]])
+            </div>
+            <div class="card-footer">
+                <input class="btn btn-primary float-right" type="submit" value="Submit">
+                <p class="clearfix"></p>
+            </div>
+        </div>
+    </form>
+
+@endsection
